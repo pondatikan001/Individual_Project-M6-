@@ -1,11 +1,11 @@
 var fs = require('fs');
 
-const Customer = function(customerhotel_id, customerhotel_name, customerhotel_age, customerhotel_address, customerhotel_phonenumber) {
-    this.customerhotel_id = customerhotel_id;
-    this.customerhotel_name = customerhotel_name;
-    this.customerhotel_age = customerhotel_age;
-    this.customerhotel_address = customerhotel_address;
-    this.customerhotel_phonenumber = customerhotel_phonenumber;
+const Customer = function(customer_id, customer_name, customer_age, customer_address, customer_phonenumber) {
+    this.customer_id = customer_id;
+    this.customer_name = customer_name;
+    this.customer_age = customer_age;
+    this.customer_address = customer_address;
+    this.customer_phonenumber = customer_phonenumber;
 }
 
 Customer.prototype.getCustomer = function() {
