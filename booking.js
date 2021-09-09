@@ -1,7 +1,7 @@
 var fs = require('fs');
 
-const {roomhotel} = require("./roomhotel")
-const {customerhotel} = require("./customerhotel");
+const {rooms} = require("./roomhotel")
+const {customers} = require("./customerhotel");
 
 const Booking = function(booking_id, customer_id, room_id, date_in, date_out) {
     this.booking_id = booking_id;
