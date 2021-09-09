@@ -2,7 +2,7 @@ var http = require('http');
 var url = require('url');
 var fs = require("fs");
 
-const { addRoom, createCustomer, bookingRoom, deleteBooking, checkBooking } = require('./hotel');
+const { createRoom, createCustomer, bookingRoom, deleteBooking, checkBooking } = require('./hotel');
 
 
 
@@ -14,9 +14,9 @@ http.createServer(function (req, res) {
     var status = 200;
 
     switch(request_path.pathname) {
-        case '/addRoom': 
+        case '/createRoom': 
             try {
-                let Room = addRoom(parseInt(request_path.query.room_id), request_path.query.room_number, request_path.query.room_type,
+                let Room = createRoom(parseInt(request_path.query.room_id), request_path.query.room_number, request_path.query.room_type,
                 parseInt(request_path.query.room_price) , request_path.query.status);
                 message += `Add room no.${request_path.query.room_number} status ${request_path.query.status} `;
                 data += JSON.stringify(Room);
