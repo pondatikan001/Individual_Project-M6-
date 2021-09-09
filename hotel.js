@@ -4,63 +4,73 @@ const {rooms, Room} = require("./roomhotel");
 const {customers, Customer} = require("./customerhotel");
 const {booking, Booking} = require("./booking");
 
-const reg_text = /[a-zA-Z]$/;
-const reg_number = /^[0]\d/;
-const reg_price = /^[1-9]{3}\d/;
-const reg_id = /\d/;
-const reg_phone = /^[0][6789]\d{8}$/;
-const reg_date = /\d{4}-\d{2}-\d{2}/;
-//เพิ่มห้อง
-addRoom = (room_id, number, type, price, status) => {
-    let check = false;
 
-    if (reg_id.test(room_id)&&reg_number.test(number)&&reg_text.test(type)&&reg_price.test(price)&&reg_text.test(status)) {
-        rooms.forEach((room) => {
-            if (room.room_number == number) {
-                console.log("already have this room");
-                check = true;
-            }
-        })
-        if (check == false) {
-            rooms.push(new Room(room_id, number, type, price, status))
-            console.log("Create Room already!");
-            console.table(rooms);
-            return rooms;
-        }
-    } else {
-            console.log("Failed to create a room");
-        }
-}
+const regex_id = /^\d{1,}$/;
+const regex_number = /^[0]\d{2}$/;
+const regex_price = /^[1-9]{3}\d/;
+const regex_text = /[a-zA-Z]$/; 
+//เพิ่มห้อง
+addRoom = (id, number, type, price, status) => {
+    let boolean = false;
+  if (
+    regex_id.test(id) && regex_number.test(number) && regex_string.test(type) && regex_price.test(price) && regex_string.test(status)){
+    rooms.forEach((room) => {
+      if (room.room_number == number) {
+        boolean = true;
+      }
+    });
+    if (boolean == false) {
+      rooms.push(new Room(id, number, type, price, status));
+      console.log("Add Room successfully.");
+      console.table(rooms);
+      return rooms;
+    } else if (boolean == true) {
+      console.log(
+        "This room has already been created."
+      );
+    }
+  } else {
+    console.log("Failed to create a room.");
+  }
+};
+
+console.table(rooms);
+
 //ลบห้อง
 deleteRoom = (id) => {
-    let check = false;
+    let boolean = false;
     let index;
     rooms.forEach((room) => {
         if (room.room_id == id) {
-            check = true;
+            boolean = true;
         }
     })
     index = rooms.findIndex(rooms => rooms.room_id == id)
-    if (check == true) {
+    if (boolean == true) {
         rooms.splice(index, 1)
         console.log("This room is already remove");
         return rooms;
-    } else if (check == false) {
+    } else if (boolean == false) {
         console.log("Don't have this room in hotel");
     }
 }
+
+
+const regex_name = /^[A-Z]\w{1,}$/;
+const regex_address = /^[A-Z][a-zA-Z, ]{5,}$/;
+const regex_phonenumber = /^[0][6,8,9]\d{8}$/;
 //เพิ่มcustomer
-createCustomer = (customer_id, customer_name, address, phone) => {
-    let check = false;
-    if (reg_id.test(customer_id) && reg_text.test(customer_name) && reg_text.test(address) && reg_phone.test(phone)) {
+createCustomer = (id, name, address, phonenumber) => {
+    let boolean = false;
+    if (regex_id.test(id) && regex_name.test(name) && regex_address.test(address) && regex_phonenumber.test(phonenumber)) {
         customers.forEach((customer) => {
             if (customer.customer_id == customer_id) {
                 console.log("This customer is already in the system.");
-                check = true;
+                boolean = true;
             }
         })
-        if (check == false) {
-            customers.push(new Customer(customer_id, customer_name, address, phone))
+        if (boolean == false) {
+            customers.push(new Customer(id, customer_name, address, phonenumber))
             console.log("Create customer account success!");
             console.table(customers);
             return customers;
@@ -69,64 +79,74 @@ createCustomer = (customer_id, customer_name, address, phone) => {
         console.log("Failed to create customer account.");
     }
 }
+console.table(customers);
 
 //ลบcustomer
 deleteCustomer = (id) => {
-    let check = false;
+    let boolean = false;
     let index;
     customers.forEach((customer) => {
         if (customer.customer_id == id) {
-            check = true;
+            boolean = true;
             console.log("Delete sucess");
         }
     })
-    index = customers.findIndex(customers => customers.customer_id == id)
-    if (check == true) {
+    index = customers.findIndex((customers) => customers.customer_id == id);
+    if (boolean == true) {
         customers.splice(index, 1)
         console.table(customers);
         return customers;
-    } else if (check == false) {
+    } else if (boolean == false) {
         console.log("Don't have customer");
     }
 }
+
+const regex_date = /^\d{4}-\d{2}-\d{2}$/;
 //จองห้อง
-bookRoom = (booking_id, customer_id, room_id, date) => {
-    let check = false;
-    if (reg_id.test(book_id) && reg_id.test(customer_id) && reg_id.test(room_id) && reg_date.test(date)) {
-    books.forEach((booking) => {
-        if (booking.booking_id == booking_id || booking.room_id == room_id && booking.date == date) {
-            check = true;
+bookRoom = (id, customer_id, room_id, date_in, date_out) => {
+    let boolean = false;
+    if (regex_id.test(id) && regex_id.test(customer_id) && regex_id.test(room_id) && regex_date.test(date_in) &&regex_date.test(date_out)
+    ) {
+      booking.forEach((book) => {
+        if (
+          book.booking_id == id ||
+          book.room_id == room_id ||
+          (book.date_in == date_in && book.date_out == date_out)
+        ) {
+          boolean = true;
         }
-    })
-    if (check == false) {
-        booking.push(new Booking(booking_id, customer_id, room_id, date))
-        console.log("Booking success!");
+      });
+      if (boolean == false) {
+        booking.push(new Booking(id, customer_id, room_id, date_in, date_out));
+        console.log("This booking id has been created successfully.");
         console.table(booking);
-        return books;
-    } else if (check == true) {
-        console.log("Sorry this room is already booking");
-    }
+        return booking;
+      } else if (boolean == true) {
+        console.log("This booking for this id has already been reserved.");
+      }
     } else {
-    console.log("Sorry booking fail");
+      console.log("Failed to create a booking.");
     }
-}
+  };
+  
+  console.table(booking);
 //ยกเลิกการจอง
 deleteBooking = (id) => {
-    let check = false;
+    let boolean = false;
     let index;
-    if (reg_id.test(id)) {
+    if (regex_id.test(id)) {
     books.forEach((booking) => {
         if (booking.booking_id == id) {
-            check = true;
+            boolean = true;
         }
     })
     index = booking.findIndex(booking => booking.booking_id == id)
-    if (check == true) {
+    if (boolean == true) {
         booking.splice(index, 1)
         console.log("Cancel booking!");
         console.table(booking);
         return booking;
-    } else if (check == false) {
+    } else if (boolean == false) {
         console.log("Don't have room in hotel");
     }
     } else {
@@ -135,16 +155,16 @@ deleteBooking = (id) => {
 }
 //เช็คห้อง
 checkBooking = (id) => {
-    let check = false;
-    if (reg_id.test(id)) {
+    let boolean = false;
+    if (regex_id.test(id)) {
     books.forEach((booking) => {
         if (booking.booking_id == id) {
             console.log("Booking success!");
             console.table(booking);
-            check = true;
+            boolean = true;
         }
     })
-    if (check == false) {
+    if (boolean == false) {
         console.log("NO booking");
     }else {
         console.log("Error your input id is wrong");
